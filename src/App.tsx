@@ -1,7 +1,5 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { extendTheme } from "@chakra-ui/react";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 
 function App() {
