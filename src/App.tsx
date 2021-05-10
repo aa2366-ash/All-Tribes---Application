@@ -1,19 +1,28 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import RegisterComp from "./Screens/Register/Register";
+import HomeComp from "./Screens/Home/Home";
+import Logincomp from "./Screens/Login/Login";
 
 function App() {
   return (
     <ChakraProvider>
       <Router>
         <Switch>
-          <Route path="/landing"></Route>
-          <Route path="/register"></Route>
-          <Route path="/invite"></Route>
-          <Route path="/login"></Route>
-          <Route path="/forgotpwd"></Route>
-          <Route path="/home"></Route>
-          <Route path="/tribe/:id"></Route>
+          <Route exact path="/landing"></Route>
+          <Route exact path="/register">
+            <RegisterComp />
+          </Route>
+          <Route exact path="/invite"></Route>
+          <Route exact path="/login">
+            <Logincomp />
+          </Route>
+          <Route exact path="/forgotpwd"></Route>
+          <Route exact path="/">
+            <HomeComp />
+          </Route>
+          <Route exact path="/tribe/:id"></Route>
         </Switch>
       </Router>
     </ChakraProvider>
