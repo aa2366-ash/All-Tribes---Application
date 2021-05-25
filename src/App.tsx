@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import RegisterComp from "./Screens/Register/Register";
 import HomeComp from "./Screens/Home/Home";
 import Logincomp from "./Screens/Login/Login";
-
+import Invitecomp from "./Screens/Invite/Invite";
 function App() {
   return (
     <ChakraProvider>
@@ -14,12 +14,14 @@ function App() {
           <Route exact path="/register">
             <RegisterComp />
           </Route>
-          <Route exact path="/invite"></Route>
+          <Route exact path="/invite">
+            <Invitecomp />
+          </Route>
           <Route exact path="/login">
             <Logincomp />
           </Route>
           <Route exact path="/forgotpwd"></Route>
-          <Route exact path="/">
+          <Route exact path="/home">
             <HomeComp />
           </Route>
           <Route exact path="/tribe/:id"></Route>

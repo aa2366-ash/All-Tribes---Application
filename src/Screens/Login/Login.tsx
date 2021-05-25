@@ -1,9 +1,11 @@
 import React from "react";
-import IntroductionComp from "../../components/Introduction";
+import IntroductionComp from "../../components/DescriptionBox";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import * as yup from "yup";
+import { useHistory } from "react-router-dom";
+
 import {
   Box,
   Input,
@@ -22,13 +24,20 @@ import {
   Text,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import { useState } from "react";
+import post from "../../utils/post";
 
-export interface Inputs {
+interface IFormValue {
   email: string;
   password: string;
+}
+
+interface IResult {
+  message: string;
+  code: string;
 }
 const schema = yup.object().shape({
   email: yup
@@ -44,18 +53,41 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
-  const { register, handleSubmit, formState } = useForm<Inputs>({
+  const toast = useToast();
+  const history = useHistory();
+  const { register, handleSubmit, formState, reset } = useForm<IFormValue>({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: Inputs) => console.log(data);
+  const onSubmit = async (data: IFormValue) => {
+    try {
+      const result = await post<IResult>(data, "api/session/login");
+      console.log(result);
+      toast({
+        title: `Logged in Successfully`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      history.push("/home");
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  };
   const [show, setShow] = useState(false);
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" h="100%">
       <IntroductionComp />
-
       <VStack justifyContent="center" p={20}>
         <Heading> Welcome to the tribe!</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,7 +1,7 @@
 import { Box, Heading, Button, Text } from "@chakra-ui/react";
 import React from "react";
 
-const Introduction = () => {
+const Description = () => {
   return (
     <Box maxW="32rem" bg="teal" color="white" alignContent="center">
       <Heading mb={4}>Tribe!</Heading>
@@ -16,4 +16,4 @@ const Introduction = () => {
   );
 };
 
-export default Introduction;
+export default Description;

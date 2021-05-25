@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import IntroductionComp from "../../components/Introduction";
+import IntroductionComp from "../../components/DescriptionBox";
 import * as yup from "yup";
+import post from "../../utils/post";
 
 import {
   Box,
@@ -20,14 +21,21 @@ import {
   Select,
   FormErrorMessage,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 
-export interface Inputs {
+export interface IFormValue {
   name: string;
   email: string;
 }
-
+interface IResult {
+  message: string;
+  data: {
+    email: string;
+    name: string;
+  };
+}
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -42,12 +50,37 @@ const schema = yup.object().shape({
 });
 
 const Register = () => {
-  const { register, handleSubmit, formState } = useForm<Inputs>({
+  const { register, handleSubmit, formState, reset } = useForm<IFormValue>({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
+  const toast = useToast();
 
-  const onSubmit = (data: Inputs) => console.log(data);
+  const onSubmit = async (data: IFormValue) => {
+    try {
+      const user = { ...data };
+      const result = await post<IResult>(user, "api/invite/");
+      toast({
+        title: `Invite sent to ${result.data.email}`,
+        description: "Login to your registered email id and accept the invite.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        position: "top-right",
+      });
+      reset({ name: "", email: "" });
+    } catch (err) {
+      toast({
+        title: `Error`,
+        description: err?.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  };
+
   return (
     <Grid templateColumns="1fr 1fr" h="100%">
       <IntroductionComp />
@@ -78,7 +111,12 @@ const Register = () => {
               </FormErrorMessage>
             </FormControl>
 
-            <Button size="md" colorScheme="teal" type="submit">
+            <Button
+              size="md"
+              colorScheme="teal"
+              type="submit"
+              isLoading={formState.isSubmitting}
+            >
               Register
             </Button>
           </Stack>
