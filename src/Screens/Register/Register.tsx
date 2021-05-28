@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import IntroductionComp from "../../components/DescriptionBox";
@@ -6,24 +6,20 @@ import * as yup from "yup";
 import post from "../../utils/post";
 
 import {
-  Box,
   Input,
   Stack,
   Heading,
   FormControl,
   FormLabel,
   HStack,
-  Radio,
-  RadioGroup,
   Button,
   Grid,
   VStack,
-  Select,
   FormErrorMessage,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export interface IFormValue {
   name: string;
@@ -49,7 +45,7 @@ const schema = yup.object().shape({
     .required("Email id is required"),
 });
 
-const Register = () => {
+const Register: React.FC = () => {
   const { register, handleSubmit, formState, reset } = useForm<IFormValue>({
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -59,7 +55,7 @@ const Register = () => {
   const onSubmit = async (data: IFormValue) => {
     try {
       const user = { ...data };
-      const result = await post<IResult>(user, "api/invite/");
+      const result = await post<IResult>("api/invite/", user);
       toast({
         title: `Invite sent to ${result.data.email}`,
         description: "Login to your registered email id and accept the invite.",

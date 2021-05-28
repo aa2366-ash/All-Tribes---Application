@@ -29,6 +29,9 @@ import {
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import post from "../../utils/post";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../../Redux/User/userAction";
+import IUser from "../../Types/user";
 
 interface IFormValue {
   email: string;
@@ -37,7 +40,9 @@ interface IFormValue {
 
 interface IResult {
   message: string;
-  code: string;
+  accesstoken: string;
+  refreshtoken: string;
+  user: IUser;
 }
 const schema = yup.object().shape({
   email: yup
@@ -55,6 +60,7 @@ const schema = yup.object().shape({
 const Login = () => {
   const toast = useToast();
   const history = useHistory();
+  const dispatch = useDispatch();
   const { register, handleSubmit, formState, reset } = useForm<IFormValue>({
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -62,8 +68,13 @@ const Login = () => {
 
   const onSubmit = async (data: IFormValue) => {
     try {
-      const result = await post<IResult>(data, "api/session/login");
-      console.log(result);
+      const result = await post<IResult>("api/session/login", data);
+      const { accesstoken, refreshtoken, user } = result;
+      localStorage.setItem("accesstoken", accesstoken);
+      localStorage.setItem("refreshtoken", refreshtoken);
+      dispatch(
+        setCurrentUser({ accesstoken, refreshtoken, currentUser: user })
+      );
       toast({
         title: `Logged in Successfully`,
         status: "success",

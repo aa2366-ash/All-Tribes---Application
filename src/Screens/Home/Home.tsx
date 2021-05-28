@@ -1,14 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Box, Button, useToast } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import post from "../../utils/post";
 
 const Home = () => {
-  return (
-    <div>
-      <h2>
-        <Link to="/register">click</Link> here to register
-      </h2>
-    </div>
-  );
+  return <Box></Box>;
 };
 
 export default Home;

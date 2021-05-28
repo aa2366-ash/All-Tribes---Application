@@ -61,7 +61,7 @@ const Invite = () => {
   const onSubmit = async (data: IFormValue) => {
     try {
       const user = { ...data, ...queryparam };
-      const result = await post<IResult>(user, "api/user/");
+      const result = await post<IResult>("api/user/", user);
       toast({
         title: `User successfully registered`,
         description: "We've created an account for you. kindly login.",
