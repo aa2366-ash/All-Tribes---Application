@@ -5,12 +5,15 @@ import { Provider } from "react-redux";
 import App from "./App";
 import store from "./Redux/store";
 import reportWebVitals from "./reportWebVitals";
-
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ChakraProvider>
-        <App />
+      <ChakraProvider resetCSS>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </ChakraProvider>
     </Provider>
   </React.StrictMode>,

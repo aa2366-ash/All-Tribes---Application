@@ -14,7 +14,6 @@ const Logout: React.FC = () => {
 
   const logout = () => {
     dispatch(logoutCurrentUser(userId));
-    history.push("/login");
   };
   return (
     <Button colorScheme="teal" size="sm" onClick={logout}>

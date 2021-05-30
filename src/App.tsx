@@ -1,5 +1,5 @@
-import React from "react";
-import { ChakraProvider } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { Box, ChakraProvider, Spinner } from "@chakra-ui/react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,9 +11,13 @@ import RegisterComp from "./Screens/Register/Register";
 import HomeComp from "./Screens/Home/Home";
 import Logincomp from "./Screens/Login/Login";
 import Invitecomp from "./Screens/Invite/Invite";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IStore } from "./Redux/rootReducer";
 import TopNavBar from "./components/Navbar";
+import IUser from "./Types/user";
+import post from "./utils/post";
+import get from "./utils/get";
+import { setCurrentUser } from "./Redux/User/userAction";
 
 const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   const refreshtoken = useSelector<IStore>((store) => store.user.refreshtoken);
@@ -27,7 +31,21 @@ const PublicRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   else return <Redirect to="/home" />;
 };
 
-function App() {
+const App = () => {
+  const refreshtoken = localStorage.getItem("refreshtoken");
+  const userId = useSelector<IStore>((store) => store.user.currentUser?.id);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (refreshtoken && !userId) {
+      get("api/user/me").then((result) =>
+        dispatch(setCurrentUser({ currentUser: result.user }))
+      );
+    }
+  }, []);
+  if (refreshtoken && !userId) return <Spinner />;
+  return <AppRoutes />;
+};
+function AppRoutes() {
   return (
     <Router>
       <Switch>

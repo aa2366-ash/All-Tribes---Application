@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
   Box,
   Flex,
@@ -14,10 +14,14 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Image,
+  Heading,
+  Grid,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import Logout from "./Logout";
-const Links = ["Dashboard", "Projects", "Team"];
+import { useSelector } from "react-redux";
+import { IStore } from "../Redux/rootReducer";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -36,9 +40,12 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 const TopNavBar: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const userName = useSelector<IStore>(
+    (store) => store?.user?.currentUser?.name
+  ) as string;
 
   return (
-    <>
+    <Grid templateRows="70px 1fr" h="100%">
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -49,18 +56,24 @@ const TopNavBar: React.FC = ({ children }) => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
+            <Box>
+              <Image
+                boxSize="80px"
+                p={2}
+                src="https://png.pngtree.com/png-clipart/20190121/ourmid/pngtree-hand-painted-tribal-teenager-holding-a-harpoon-ancient-myth-free-buckle-png-image_523559.jpg"
+                alt="Segun Adebayo"
+              />
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+            ></HStack>
           </HStack>
           <Flex alignItems={"center"}>
+            <Heading size="md">
+              Hello {userName.charAt(0).toUpperCase() + userName.slice(1)}
+            </Heading>
             <Menu>
               <MenuButton
                 as={Button}
@@ -76,7 +89,7 @@ const TopNavBar: React.FC = ({ children }) => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>
+                <MenuItem justifyContent="center">
                   <Logout />
                 </MenuItem>
               </MenuList>
@@ -86,17 +99,12 @@ const TopNavBar: React.FC = ({ children }) => {
 
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
+            <Stack as={"nav"} spacing={4}></Stack>
           </Box>
         ) : null}
       </Box>
-
-      <Box>{children}</Box>
-    </>
+      {children}
+    </Grid>
   );
 };
 export default TopNavBar;

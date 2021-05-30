@@ -19,6 +19,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useQuery from "../../utils/queryparam";
 import post from "../../utils/post";
+import { useHistory } from "react-router";
 
 interface IFormValue {
   handler: string;
@@ -44,6 +45,7 @@ const schema = yup.object().shape({
 const Invite = () => {
   const query = useQuery();
   const toast = useToast();
+  const history = useHistory();
   const queryparam = {
     code: query.get("code"),
     email: query.get("email"),
@@ -61,7 +63,7 @@ const Invite = () => {
   const onSubmit = async (data: IFormValue) => {
     try {
       const user = { ...data, ...queryparam };
-      const result = await post<IResult>("api/user/", user);
+      const result = await post<IResult>("api/invite/create", user);
       toast({
         title: `User successfully registered`,
         description: "We've created an account for you. kindly login.",
@@ -71,6 +73,7 @@ const Invite = () => {
         position: "top-right",
       });
       reset({ handler: "", password: "" });
+      history.push("/login");
     } catch (err) {
       toast({
         title: `Error`,
