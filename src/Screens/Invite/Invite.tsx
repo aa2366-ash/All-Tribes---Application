@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import Inputfield from "../../components/Inputfield";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import useQuery from "../../utils/queryparam";
+import useQueryParam from "../../utils/queryparam";
 import post from "../../utils/post";
 import { useHistory } from "react-router";
 
@@ -43,7 +43,7 @@ const schema = yup.object().shape({
     .required("Password is required"),
 });
 const Invite = () => {
-  const query = useQuery();
+  const query = useQueryParam();
   const toast = useToast();
   const history = useHistory();
   const queryparam = {
@@ -63,7 +63,7 @@ const Invite = () => {
   const onSubmit = async (data: IFormValue) => {
     try {
       const user = { ...data, ...queryparam };
-      const result = await post<IResult>("api/invite/create", user);
+      const result = await post("api/invite/create", user);
       toast({
         title: `User successfully registered`,
         description: "We've created an account for you. kindly login.",

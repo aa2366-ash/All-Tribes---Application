@@ -68,7 +68,7 @@ const Login = () => {
 
   const onSubmit = async (data: IFormValue) => {
     try {
-      const result = await post<IResult>("api/session/login", data);
+      const result = await post("api/session/login", data);
       const { accesstoken, refreshtoken, user } = result;
       localStorage.setItem("accesstoken", accesstoken);
       localStorage.setItem("refreshtoken", refreshtoken);

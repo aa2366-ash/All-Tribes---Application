@@ -56,7 +56,7 @@ const CreateTribe = () => {
 
   const onSubmit = async (data: IFormValue) => {
     try {
-      const result = await post("api/tribe/", data);
+      const result = await post("api/tribes/", data);
       toast({
         title: `Tribe Successfully created`,
         status: "success",

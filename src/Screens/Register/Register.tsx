@@ -55,7 +55,7 @@ const Register: React.FC = () => {
   const onSubmit = async (data: IFormValue) => {
     try {
       const user = { ...data };
-      const result = await post<IResult>("api/invite/", user);
+      const result = await post("api/invite/", user);
       toast({
         title: `Invite sent to ${result.data.email}`,
         description: "Login to your registered email id and accept the invite.",

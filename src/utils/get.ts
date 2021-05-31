@@ -1,20 +1,19 @@
-import { useDispatch } from "react-redux";
-import post from "./post";
+import axiosApiInstance from "./interceptor";
+
 const get = async (url: string) => {
   const accessToken = localStorage.getItem("accesstoken");
 
-  const request = await fetch(process.env.REACT_APP_SERVER_URL + url, {
-    method: "GET",
+  const response = await axiosApiInstance.get(url, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: "Bearer " + accessToken,
     },
   });
-  const response = await request.json();
-  if (request.status >= 200 && request.status < 300) return response;
+
+  if (response.status >= 200 && response.status < 300) return response.data;
   else {
-    throw new Error(response?.message);
+    throw new Error(response.data.message);
   }
 };
 

@@ -18,6 +18,7 @@ import IUser from "./Types/user";
 import post from "./utils/post";
 import get from "./utils/get";
 import { setCurrentUser } from "./Redux/User/userAction";
+import Tribe from "./Screens/Tribe/Tribe";
 
 const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   const refreshtoken = useSelector<IStore>((store) => store.user.refreshtoken);
@@ -64,7 +65,11 @@ function AppRoutes() {
             <HomeComp />
           </TopNavBar>
         </PrivateRoute>
-        <Route exact path="/tribe/:id"></Route>
+        <Route exact path="/tribe">
+          <TopNavBar>
+            <Tribe />
+          </TopNavBar>
+        </Route>
       </Switch>
     </Router>
   );
