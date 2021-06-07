@@ -2,20 +2,38 @@ import {
   Heading,
   Avatar,
   Box,
-  Center,
   Image,
   Flex,
   Text,
   Stack,
-  Button,
   useColorModeValue,
   Grid,
-  VStack,
 } from "@chakra-ui/react";
 import { IoIosPeople } from "react-icons/io";
-import React from "react";
+import { useParams } from "react-router-dom";
+import Createpost from "./Createpost";
+import { ITribe } from "../../Types/tribe";
+import { useQuery } from "react-query";
+import get from "../../utils/get";
+import Postlist from "./PostList";
 
+interface ITribeResult {
+  data: ITribe;
+  message: string;
+  err?: {};
+}
+const getTribedata = async (tribeId: string) => {
+  return await get(`api/tribes/${tribeId}`);
+};
 const Tribe = () => {
+  const { tribeId } = useParams<{ tribeId: string }>();
+  const { data, status, error } = useQuery<ITribeResult>(
+    ["tribe", tribeId],
+    () => getTribedata(tribeId)
+  );
+
+  const tribe = data?.data;
+
   return (
     <Grid templateColumns="70% 1fr" h="100%">
       <Box
@@ -27,18 +45,14 @@ const Tribe = () => {
         <Image
           h={"120px"}
           w={"full"}
-          src={
-            "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-          }
+          src={tribe?.coverUrl}
           objectFit={"cover"}
         />
         <Stack direction={"row"} spacing="2px">
           <Flex mt={-6} ml={4}>
             <Avatar
               size={"xl"}
-              src={
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-              }
+              src={tribe?.avatarUrl}
               alt={"Author"}
               css={{
                 border: "2px solid white",
@@ -48,18 +62,18 @@ const Tribe = () => {
           <Stack direction={"column"} spacing={0} align={"start"}>
             <Stack direction={"row"} align={"start"} mt={2}>
               <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-                Tribe Name
+                {tribe?.name}
               </Heading>
               <IoIosPeople />
-              <Text fontSize="xs">100</Text>
+              <Text fontSize="xs">{tribe?.members}</Text>
             </Stack>
-
-            <Text color={"gray.500"}>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-              commodo ligula eget dolor. Aenean m
-            </Text>
+            <Stack direction={"row"} spacing={4}>
+              <Text color={"gray.500"}>{tribe?.description}</Text>
+              <Createpost />
+            </Stack>
           </Stack>
         </Stack>
+        <Postlist />
       </Box>
       <Box
         bg={useColorModeValue("teal.400", "teal.200")}

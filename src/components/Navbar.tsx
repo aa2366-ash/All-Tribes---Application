@@ -14,7 +14,6 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Image,
   Heading,
   Grid,
 } from "@chakra-ui/react";
@@ -22,27 +21,15 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import Logout from "./Logout";
 import { useSelector } from "react-redux";
 import { IStore } from "../Redux/rootReducer";
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={"#"}
-  >
-    {children}
-  </Link>
-);
+import { FcHome } from "react-icons/fc";
+import { useHistory } from "react-router";
 
 const TopNavBar: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const userName = useSelector<IStore>(
     (store) => store?.user?.currentUser?.name
   ) as string;
+  const history = useHistory();
 
   return (
     <Grid templateRows="70px 1fr" h="100%">
@@ -56,13 +43,8 @@ const TopNavBar: React.FC = ({ children }) => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>
-              <Image
-                boxSize="80px"
-                p={2}
-                src="https://png.pngtree.com/png-clipart/20190121/ourmid/pngtree-hand-painted-tribal-teenager-holding-a-harpoon-ancient-myth-free-buckle-png-image_523559.jpg"
-                alt="Segun Adebayo"
-              />
+            <Box _hover={{ cursor: "pointer" }}>
+              <FcHome size="50" onClick={() => history.push("/home")} />
             </Box>
             <HStack
               as={"nav"}

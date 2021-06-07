@@ -1,10 +1,15 @@
-import { Box, Button } from "@chakra-ui/react";
-import React from "react";
+import { Box, Button, useDisclosure } from "@chakra-ui/react";
+import CreatePostModal from "./CreatePostModal";
 
 const Createpost = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Box>
-      <Button>Create post</Button>
+    <Box m={12} alignContent="center">
+      <Button onClick={onOpen} color="teal" variant="solid">
+        Create post
+      </Button>
+      <CreatePostModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };

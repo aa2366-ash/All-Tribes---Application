@@ -14,12 +14,18 @@ import { ITribelist } from "../Types/tribe";
 
 interface ITribelistProps {
   tribe: ITribelist;
+  onTribeChange(tribeId: string): void;
 }
 
-const Tribelist: React.FC<ITribelistProps> = ({ tribe }) => {
+const Tribelist: React.FC<ITribelistProps> = ({ tribe, onTribeChange }) => {
   const tribedata = tribe.tribe;
   return (
-    <Center py={2}>
+    <Center
+      py={2}
+      onClick={() => {
+        onTribeChange(tribedata.id);
+      }}
+    >
       <Box
         maxW={"270px"}
         w={"full"}
@@ -28,6 +34,12 @@ const Tribelist: React.FC<ITribelistProps> = ({ tribe }) => {
         rounded={"md"}
         overflow={"hidden"}
         p={2}
+        _hover={{
+          boxShadow: "dark-lg",
+          rounded: "md",
+          bg: "white",
+          cursor: "pointer",
+        }}
       >
         <Stack direction={"row"} justify={"start"} spacing={2}>
           <Avatar
