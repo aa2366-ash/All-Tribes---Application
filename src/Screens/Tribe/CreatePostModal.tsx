@@ -108,7 +108,6 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
   );
   const OnSubmit = handleSubmit((data) => {
-    console.log(data);
     addPostMutation.mutate(data);
   });
 

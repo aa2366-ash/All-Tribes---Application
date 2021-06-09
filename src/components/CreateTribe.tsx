@@ -8,19 +8,15 @@ import post from "../utils/post";
 import {
   Box,
   Button,
-  Container,
   Heading,
-  Input,
-  SimpleGrid,
   Stack,
-  useToast,
-  VStack,
-  Text,
   Textarea,
   FormControl,
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/react";
+import { useMutation, useQueryClient } from "react-query";
+import { ITribelist } from "../Types/tribe";
 interface IFormValue {
   name: string;
   description: string;
@@ -36,7 +32,7 @@ const schema = yup.object().shape({
   name: yup
     .string()
     .trim()
-    .max(15, "Tribe name can contain atmost 15 characters")
+    .max(20, "Tribe name can contain atmost 20 characters")
     .required("Tribe name is required"),
   description: yup
     .string()
@@ -48,35 +44,53 @@ const schema = yup.object().shape({
   coverUrl: yup.string(),
 });
 const CreateTribe = () => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, reset, formState } = useForm<IFormValue>({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
-  const toast = useToast();
-
-  const onSubmit = async (data: IFormValue) => {
-    try {
-      const result = await post("api/tribes/", data);
-      toast({
-        title: `Tribe Successfully created`,
-        status: "success",
-        duration: 4000,
-        isClosable: true,
-        position: "top-right",
-      });
-      reset({ name: "", description: "", avatarUrl: "" });
-    } catch (err) {
-      toast({
-        title: err.message,
-        status: "error",
-        duration: 4000,
-        isClosable: true,
-        position: "top-right",
-      });
+  const CreateTribeMutatation = useMutation(
+    async (newtribe: IFormValue) => await post("api/tribes/", newtribe),
+    {
+      onMutate: async (newtribe: IFormValue) => {
+        await queryClient.cancelQueries("tribelist");
+        const previousTodolist =
+          queryClient.getQueryData<ITribelist[]>("tribelist");
+        if (previousTodolist)
+          queryClient.setQueryData("tribelist", [
+            ...previousTodolist,
+            {
+              userId: "",
+              tribeId: "",
+              id: "",
+              type: "Admin",
+              tribe: {
+                ...newtribe,
+                creatorId: "",
+                members: 1,
+                createdAt: "",
+                updatedAt: "",
+                id: "",
+              },
+            },
+          ]);
+        return previousTodolist;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries("tribelist");
+      },
+      onError: (err, variables, previousTodolist) => {
+        if (previousTodolist) {
+          queryClient.setQueryData<ITribelist[]>("tribelist", previousTodolist);
+        }
+      },
     }
-  };
+  );
+  const onSubmit = handleSubmit((data) => {
+    CreateTribeMutatation.mutate(data);
+  });
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
       <Box w="400px" bg={"gray.200"} rounded={"md"} m={2}>
         <Stack
           direction={"column"}
@@ -117,7 +131,7 @@ const CreateTribe = () => {
 
           <Inputfield
             registerProps={register("avatarUrl")}
-            placeholder="Profile Url 180 x 180"
+            placeholder="Avatar Url 180 x 180"
             bg={"gray.100"}
             border={0}
             color={"gray.500"}
@@ -127,7 +141,7 @@ const CreateTribe = () => {
           />
           <Inputfield
             registerProps={register("coverUrl")}
-            placeholder="Banner Url 820 X 312"
+            placeholder="Cover Url 820 X 312"
             bg={"gray.100"}
             border={0}
             color={"gray.500"}

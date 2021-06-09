@@ -22,7 +22,7 @@ const Home = () => {
   const { data, status } = useQuery<ITribelist[]>("tribelist", fetchtribe);
   return (
     <Grid templateColumns="300px 1fr" h="100%">
-      <Box bg="teal.200" overflowY="auto">
+      <Box bg="rgb(226,232,240)" overflowY="auto">
         {status === "error" ? (
           <Text>Failed to fetch the contents</Text>
         ) : status === "loading" ? (

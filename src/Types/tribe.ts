@@ -2,7 +2,7 @@ export interface ITribe {
   name: string;
   creatorId: string;
   description: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   coverUrl: string;
   members: number;
   createdAt: string;

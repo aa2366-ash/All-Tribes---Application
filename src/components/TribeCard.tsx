@@ -44,12 +44,11 @@ const Tribelist: React.FC<ITribelistProps> = ({ tribe, onTribeChange }) => {
         <Stack direction={"row"} justify={"start"} spacing={2}>
           <Avatar
             size={"md"}
-            src={tribedata.avatarUrl}
-            alt={"Author"}
+            src={tribedata?.avatarUrl}
             css={{
               border: "2px solid white",
             }}
-          />{" "}
+          />
           <Stack spacing={0} align={"start"} mb={5}>
             <Heading fontSize={"lg"} fontWeight={500} fontFamily={"body"}>
               {tribedata.name}

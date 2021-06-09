@@ -1,4 +1,10 @@
-import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Stack,
+} from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router";
 import TribeCard from "../../components/TribeCard";
@@ -8,15 +14,21 @@ interface TribelistProps {
 }
 const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
   const history = useHistory();
-
   const HandleTribeChange = (tribeId: string) => {
-    history.push(`/tribes/${tribeId}`);
+    history.push(`/tribe/${tribeId}`);
   };
   return (
     <Stack spacing={1}>
-      {tribes?.map((tribe) => (
-        <TribeCard tribe={tribe} onTribeChange={HandleTribeChange} />
-      ))}
+      {tribes ? (
+        tribes?.map((tribe) => (
+          <TribeCard tribe={tribe} onTribeChange={HandleTribeChange} />
+        ))
+      ) : (
+        <Alert status="warning" my="2">
+          <AlertIcon />
+          <AlertTitle mr={2}>No tribes to list!</AlertTitle>
+        </Alert>
+      )}
     </Stack>
   );
 };

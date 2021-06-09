@@ -65,7 +65,7 @@ function AppRoutes() {
             <HomeComp />
           </TopNavBar>
         </PrivateRoute>
-        <Route exact path="/tribe">
+        <Route exact path="/tribe/:tribeId">
           <TopNavBar>
             <Tribe />
           </TopNavBar>
