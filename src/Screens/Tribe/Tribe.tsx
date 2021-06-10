@@ -9,6 +9,7 @@ import {
   useColorModeValue,
   Grid,
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import { IoIosPeople } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import Createpost from "./Createpost";

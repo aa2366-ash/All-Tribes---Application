@@ -76,6 +76,18 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
             like: 0,
             isLiked: false,
             creatorId: "",
+            tribeId: "",
+            tribe: {
+              name: "",
+              creatorId: "",
+              description: "",
+              avatarUrl: "",
+              coverUrl: "",
+              members: 1,
+              createdAt: "",
+              updatedAt: "",
+              id: "",
+            },
             creator: {
               id: "",
               createdAt: "",
@@ -109,6 +121,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
   );
   const OnSubmit = handleSubmit((data) => {
     addPostMutation.mutate(data);
+    reset();
   });
 
   return (

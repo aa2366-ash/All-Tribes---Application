@@ -1,10 +1,10 @@
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
-import { useInfiniteQuery, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import PostCard from "../../components/PostCard";
+import { useInfiniteQuery } from "react-query";
 import { IPost } from "../../Types/post";
 import get from "../../utils/get";
 import flattendeep from "lodash.flattendeep";
+import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import PostEditCard from "../../components/PostEditCard";
+
 interface IError {
   message: string;
 }
@@ -17,9 +17,8 @@ const fetchPage = async (
     `api/tribes/${queryKey}/posts/?pageParam=${pageParam}&limit=${limit}`
   );
 };
-const Postlist = () => {
-  const { tribeId } = useParams<{ tribeId: string }>();
-  const limit = 10;
+const MyPost: React.FC = () => {
+  const limit = 5;
   const {
     status,
     data,
@@ -28,7 +27,7 @@ const Postlist = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery<IPost[], IError>(
-    ["PostList", tribeId],
+    ["PostList", "MyPost"],
     ({ pageParam = 0, queryKey }) =>
       fetchPage(pageParam, queryKey[1] as string, limit),
     {
@@ -47,7 +46,7 @@ const Postlist = () => {
         <Spinner />
       ) : status === "success" ? (
         postList.length > 0 ? (
-          postList.map((post) => <PostCard {...post} />)
+          postList.map((post) => <PostEditCard {...post} />)
         ) : (
           <Text>No post to display.</Text>
         )
@@ -55,17 +54,18 @@ const Postlist = () => {
         ""
       )}
       {postList.length > 0 && (
-        <Button
-          color="teal"
-          variant="solid"
-          disabled={!hasNextPage}
-          onClick={() => fetchNextPage()}
-        >
-          Load more post..
-        </Button>
+        <Box mx="auto">
+          <Button
+            color="teal"
+            variant="outline"
+            disabled={!hasNextPage}
+            onClick={() => fetchNextPage()}
+          >
+            Load more posts..
+          </Button>
+        </Box>
       )}
     </Box>
   );
 };
-
-export default Postlist;
+export default MyPost;

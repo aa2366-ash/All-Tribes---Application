@@ -10,24 +10,28 @@ import {
   TagLabel,
   Tag,
 } from "@chakra-ui/react";
-import { ITribelist } from "../Types/tribe";
+import { ITribelist, ITribe } from "../Types/tribe";
 
 interface ITribelistProps {
-  tribe: ITribelist;
+  tribe: ITribe;
+  type?: string;
   onTribeChange(tribeId: string): void;
 }
 
-const Tribelist: React.FC<ITribelistProps> = ({ tribe, onTribeChange }) => {
-  const tribedata = tribe.tribe;
+const Tribelist: React.FC<ITribelistProps> = ({
+  tribe,
+  type,
+  onTribeChange,
+}) => {
   return (
     <Center
       py={2}
       onClick={() => {
-        onTribeChange(tribedata.id);
+        onTribeChange(tribe.id);
       }}
     >
       <Box
-        maxW={"270px"}
+        maxW={"350px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"2xl"}
@@ -44,22 +48,28 @@ const Tribelist: React.FC<ITribelistProps> = ({ tribe, onTribeChange }) => {
         <Stack direction={"row"} justify={"start"} spacing={2}>
           <Avatar
             size={"md"}
-            src={tribedata?.avatarUrl}
+            src={tribe?.avatarUrl}
             css={{
               border: "2px solid white",
             }}
           />
           <Stack spacing={0} align={"start"} mb={5}>
             <Heading fontSize={"lg"} fontWeight={500} fontFamily={"body"}>
-              {tribedata.name}
+              {tribe.name}
             </Heading>
             <Stack direction={"row"}>
               <Text fontSize={"sm"} color={"gray.500"}>
-                {tribedata.members} Members
+                {tribe.members > 1 ? `${tribe.members} Members` : `1 Member`}
               </Text>
-              <Tag size="sm" colorScheme="red" borderRadius="full">
-                <TagLabel>{tribe.type}</TagLabel>
-              </Tag>
+              {type && (
+                <Tag
+                  size="sm"
+                  colorScheme={type == "Admin" ? "red" : "blue"}
+                  borderRadius="full"
+                >
+                  <TagLabel>{type}</TagLabel>
+                </Tag>
+              )}
             </Stack>
           </Stack>
         </Stack>
@@ -71,7 +81,7 @@ const Tribelist: React.FC<ITribelistProps> = ({ tribe, onTribeChange }) => {
             noOfLines={2}
             overflow={"hidden"}
           >
-            {tribedata.description}
+            {tribe.description}
           </Text>
         </Box>
       </Box>

@@ -17,3 +17,12 @@ export interface ITribelist {
   type: "Admin" | "Follower";
   tribe: ITribe;
 }
+
+export interface ISearchTribeList extends ITribe {
+  isMember?: {
+    userId?: string;
+    tribeId?: string;
+    id?: string;
+    type?: "Admin" | "Follower";
+  };
+}

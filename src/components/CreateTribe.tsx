@@ -1,6 +1,4 @@
-import React from "react";
 import Inputfield from "./Inputfield";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -49,6 +47,7 @@ const CreateTribe = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
   });
+
   const CreateTribeMutatation = useMutation(
     async (newtribe: IFormValue) => await post("api/tribes/", newtribe),
     {
@@ -58,7 +57,6 @@ const CreateTribe = () => {
           queryClient.getQueryData<ITribelist[]>("tribelist");
         if (previousTodolist)
           queryClient.setQueryData("tribelist", [
-            ...previousTodolist,
             {
               userId: "",
               tribeId: "",
@@ -73,6 +71,7 @@ const CreateTribe = () => {
                 id: "",
               },
             },
+            ...previousTodolist,
           ]);
         return previousTodolist;
       },
@@ -88,10 +87,11 @@ const CreateTribe = () => {
   );
   const onSubmit = handleSubmit((data) => {
     CreateTribeMutatation.mutate(data);
+    reset();
   });
   return (
     <form onSubmit={onSubmit}>
-      <Box w="400px" bg={"gray.200"} rounded={"md"} m={2}>
+      <Box w="400px" bg={"gray.200"} rounded={"md"} m="auto">
         <Stack
           direction={"column"}
           justify={"center"}

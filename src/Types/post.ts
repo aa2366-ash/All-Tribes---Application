@@ -1,3 +1,4 @@
+import { ITribe } from "./tribe";
 import IUser from "./user";
 
 export interface IPost {
@@ -9,4 +10,6 @@ export interface IPost {
   like: number;
   isLiked: boolean;
   creator: IUser;
+  tribeId: string;
+  tribe: ITribe;
 }
