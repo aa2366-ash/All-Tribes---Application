@@ -8,15 +8,13 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
 import React from "react";
 import CreateTribe from "./CreateTribe";
 
-const CreateTribeBanner = () => {
+const CreateTribeBanner: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

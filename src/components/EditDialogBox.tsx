@@ -18,7 +18,6 @@ import Inputfield from "./Inputfield";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
 import patch from "../utils/patch";
 import { IPost } from "../Types/post";
-import { useParams } from "react-router-dom";
 import flattendeep from "lodash.flattendeep";
 import chunk from "lodash.chunk";
 
@@ -88,7 +87,7 @@ const EditDialogBox: React.FC<EditPostModalProps> = ({
         }
         return previousPostList;
       },
-      onError: (err, variables, previousPostList) => {
+      onError: (_err, _variables, previousPostList) => {
         if (previousPostList)
           queryClient.setQueryData<InfiniteData<IPost[]> | undefined>(
             ["PostList", "MyPost"],

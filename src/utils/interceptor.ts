@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const axiosApiInstance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
@@ -38,13 +38,6 @@ axiosApiInstance.interceptors.response.use(
   }
 );
 
-interface IAccesstoken {
-  accesstoken: string;
-  message: string;
-  err?: {
-    message: string;
-  };
-}
 const refreshAccessToken = async () => {
   const refreshtoken = localStorage.getItem("refreshtoken");
   const token = await axiosApiInstance.post(`api/session/token`, {

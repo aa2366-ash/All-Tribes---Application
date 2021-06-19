@@ -6,7 +6,7 @@ import {
   InputProps,
 } from "@chakra-ui/react";
 import React from "react";
-import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputfieldProps extends InputProps {
   label?: string;

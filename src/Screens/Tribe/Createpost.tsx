@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Heading, Stack, useDisclosure } from "@chakra-ui/react";
 import CreatePostModal from "../../components/CreatePostModal";
 import { FcGallery } from "react-icons/fc";
 const Createpost = () => {

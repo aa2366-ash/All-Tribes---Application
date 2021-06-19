@@ -11,7 +11,6 @@ import {
   Textarea,
   FormControl,
   FormErrorMessage,
-  FormLabel,
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "react-query";
 import { ITribelist } from "../Types/tribe";
@@ -21,11 +20,6 @@ interface IFormValue {
   avatarUrl: string;
   coverUrl: string;
 }
-interface IResult {
-  message: string;
-  err?: {};
-}
-
 const schema = yup.object().shape({
   name: yup
     .string()

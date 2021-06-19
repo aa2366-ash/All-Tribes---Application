@@ -8,7 +8,6 @@ import {
   InputRightElement,
   Stack,
   Box,
-  Text,
 } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { useQuery } from "react-query";
@@ -23,13 +22,13 @@ interface TribelistProps {
 }
 
 const fetchSearchResult = async (search: string) => {
-  if (search == "") return [];
+  if (search === "") return [];
   else return await get(`api/tribes?search=${search}`);
 };
 const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
   const history = useHistory();
   const [search, setsearch] = useState("");
-  const { data, status, error } = useQuery<ISearchTribeList[]>(
+  const { data } = useQuery<ISearchTribeList[]>(
     ["searchTribe", search],
     ({ queryKey }) => fetchSearchResult(queryKey[1] as string)
   );

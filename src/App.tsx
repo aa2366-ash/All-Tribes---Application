@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, ChakraProvider, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,18 +7,16 @@ import {
   Redirect,
   RouteProps,
 } from "react-router-dom";
-import RegisterComp from "./Screens/Register/Register";
-import HomeComp from "./Screens/Home/Home";
+import RegisterComp from "./Screens/Register";
+import HomeComp from "./Screens/Home";
 import Logincomp from "./Screens/Login/Login";
 import Invitecomp from "./Screens/Invite/Invite";
 import { useDispatch, useSelector } from "react-redux";
 import { IStore } from "./Redux/rootReducer";
 import TopNavBar from "./components/Navbar";
-import IUser from "./Types/user";
-import post from "./utils/post";
 import get from "./utils/get";
 import { setCurrentUser } from "./Redux/User/userAction";
-import Tribe from "./Screens/Tribe/Tribe";
+import Tribe from "./Screens/Tribe";
 
 const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   const refreshtoken = useSelector<IStore>((store) => store.user.refreshtoken);

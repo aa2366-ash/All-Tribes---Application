@@ -1,10 +1,9 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import {
   Box,
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -12,7 +11,6 @@ import {
   MenuList,
   MenuItem,
   useDisclosure,
-  useColorModeValue,
   Stack,
   Heading,
   Grid,

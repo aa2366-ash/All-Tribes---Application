@@ -25,10 +25,6 @@ interface IFormValue {
   handler: string;
   password: string;
 }
-interface IResult {
-  message: string;
-  err?: {};
-}
 const schema = yup.object().shape({
   handler: yup
     .string()
@@ -64,14 +60,15 @@ const Invite = () => {
     try {
       const user = { ...data, ...queryparam };
       const result = await post("api/invite/create", user);
-      toast({
-        title: `User successfully registered`,
-        description: "We've created an account for you. kindly login.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-        position: "top-right",
-      });
+      if (result)
+        toast({
+          title: `User successfully registered`,
+          description: "We've created an account for you. kindly login.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
       reset({ handler: "", password: "" });
       history.push("/login");
     } catch (err) {

@@ -25,13 +25,7 @@ export interface IFormValue {
   name: string;
   email: string;
 }
-interface IResult {
-  message: string;
-  data: {
-    email: string;
-    name: string;
-  };
-}
+
 const schema = yup.object().shape({
   name: yup
     .string()

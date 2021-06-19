@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Box, Grid, Skeleton, Stack, Text } from "@chakra-ui/react";
 import Tribelist from "./Tribelist";
 import get from "../../utils/get";
 import { useQuery } from "react-query";

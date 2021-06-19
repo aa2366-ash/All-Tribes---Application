@@ -1,20 +1,7 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Stack,
-  Text,
-  PopoverCloseButton,
-  PopoverBody,
-  Box,
-} from "@chakra-ui/react";
+import { Stack, Text, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import { useQuery, useQueryClient } from "react-query";
-import get from "../utils/get";
 import deletereq from "../utils/delete";
-import { IActivity } from "../Types/activity";
 import post from "../utils/post";
 interface ILikeProps {
   postId: string;
@@ -45,6 +32,7 @@ const LikePost: React.FC<ILikeProps> = ({ postId, isLiked, count }) => {
         _hover={{
           cursor: "pointer",
         }}
+        disabled={isLoading}
       >
         {like ? <FcLike size={22} /> : <FcLikePlaceholder size={22} />}
       </Box>

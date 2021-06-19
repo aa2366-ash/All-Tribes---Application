@@ -2,19 +2,7 @@ import { useInfiniteQuery } from "react-query";
 import { IPost } from "../../Types/post";
 import get from "../../utils/get";
 import flattendeep from "lodash.flattendeep";
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  Button,
-  Skeleton,
-  Spinner,
-  Stack,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Skeleton, Stack, Text, VStack } from "@chakra-ui/react";
 import PostEditCard from "../../components/PostEditCard";
 import NoPost from "../../components/NoPost";
 
@@ -31,7 +19,6 @@ const fetchPage = async (
   );
 };
 const MyPost: React.FC = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const limit = 5;
   const { status, data, error, fetchNextPage, hasNextPage } = useInfiniteQuery<
     IPost[],

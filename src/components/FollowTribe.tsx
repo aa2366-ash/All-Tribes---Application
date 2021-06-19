@@ -20,7 +20,7 @@ const FollowTribe = () => {
     console.log("hi");
     try {
       const result = await post(`/api/tribes/${tribeId}/follow`, {});
-      queryClient.invalidateQueries(["PostList", tribeId]);
+      if (result) queryClient.invalidateQueries(["PostList", tribeId]);
       toast({
         title: `Joined Tribe!`,
         status: "success",

@@ -7,43 +7,32 @@ import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 
 import {
-  Box,
   Input,
   Stack,
   Heading,
   FormControl,
   FormLabel,
   HStack,
-  Radio,
-  RadioGroup,
   Button,
   Grid,
   VStack,
-  Select,
   FormErrorMessage,
   Text,
   InputGroup,
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import post from "../../utils/post";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../Redux/User/userAction";
-import IUser from "../../Types/user";
 
 interface IFormValue {
   email: string;
   password: string;
 }
 
-interface IResult {
-  message: string;
-  accesstoken: string;
-  refreshtoken: string;
-  user: IUser;
-}
 const schema = yup.object().shape({
   email: yup
     .string()
@@ -61,7 +50,7 @@ const Login = () => {
   const toast = useToast();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { register, handleSubmit, formState, reset } = useForm<IFormValue>({
+  const { register, handleSubmit, formState } = useForm<IFormValue>({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });

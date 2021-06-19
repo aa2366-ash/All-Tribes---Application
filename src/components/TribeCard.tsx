@@ -10,7 +10,7 @@ import {
   TagLabel,
   Tag,
 } from "@chakra-ui/react";
-import { ITribelist, ITribe } from "../Types/tribe";
+import { ITribe } from "../Types/tribe";
 
 interface ITribelistProps {
   tribe: ITribe;
@@ -64,7 +64,7 @@ const Tribelist: React.FC<ITribelistProps> = ({
               {type && (
                 <Tag
                   size="sm"
-                  colorScheme={type == "Admin" ? "red" : "blue"}
+                  colorScheme={type === "Admin" ? "red" : "blue"}
                   borderRadius="full"
                 >
                   <TagLabel>{type}</TagLabel>

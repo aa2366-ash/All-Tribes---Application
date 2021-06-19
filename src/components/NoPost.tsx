@@ -1,7 +1,7 @@
-import { Alert, AlertIcon, AlertTitle, Box } from "@chakra-ui/react";
+import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/react";
 import React from "react";
 
-const NoPost = () => {
+const NoPost: React.FC = () => {
   return (
     <Alert
       status="warning"

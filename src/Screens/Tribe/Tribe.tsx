@@ -9,10 +9,8 @@ import {
   useColorModeValue,
   Grid,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 import { IoIosPeople } from "react-icons/io";
 import { useParams } from "react-router-dom";
-import Createpost from "./Createpost";
 import { ITribe } from "../../Types/tribe";
 import { useQuery } from "react-query";
 import get from "../../utils/get";
@@ -28,9 +26,8 @@ const getTribedata = async (tribeId: string) => {
 };
 const Tribe = () => {
   const { tribeId } = useParams<{ tribeId: string }>();
-  const { data, status, error } = useQuery<ITribeResult>(
-    ["tribe", tribeId],
-    () => getTribedata(tribeId)
+  const { data } = useQuery<ITribeResult>(["tribe", tribeId], () =>
+    getTribedata(tribeId)
   );
 
   const tribe = data?.data;

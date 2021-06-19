@@ -14,18 +14,14 @@ import {
   HStack,
   Badge,
 } from "@chakra-ui/react";
-import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { IPost } from "../Types/post";
-import deletereq from "../utils/post";
 import React from "react";
 import DeleteDialogBox from "./DeleteDialogBox";
 import EditDialogBox from "./EditDialogBox";
 import LikePost from "./LikePost";
 import { DayConvert } from "../utils/dayjs";
-interface RefObject {
-  onClose(): void;
-}
+
 const PostEditCard: React.FC<IPost> = (post) => {
   const {
     isOpen: isOpenDelete,

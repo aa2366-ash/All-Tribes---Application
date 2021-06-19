@@ -1,23 +1,5 @@
-import {
-  Box,
-  Heading,
-  Square,
-  VStack,
-  Image,
-  HStack,
-  Text,
-  useColorModeValue,
-  Avatar,
-  Stack,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverHeader,
-} from "@chakra-ui/react";
+import { Box, Square, Image, Text, Avatar, Stack } from "@chakra-ui/react";
 import { IPost } from "../Types/post";
-import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import React from "react";
 import LikePost from "./LikePost";
 

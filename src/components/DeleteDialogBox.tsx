@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
-import { IError } from "../Screens/Home/MyPost";
 import { IPost } from "../Types/post";
 import deletereq from "../utils/delete";
 import flattendeep from "lodash.flattendeep";
@@ -53,7 +52,7 @@ const DeleteDialogBox: React.FC<IDialogueboxProps> = ({
         }
         return previousPostList;
       },
-      onError: async (err, variables, previousPostList) => {
+      onError: async (_err, _variables, previousPostList) => {
         if (previousPostList)
           queryClient.setQueryData<InfiniteData<IPost[]> | undefined>(
             ["PostList", "MyPost"],

@@ -1,5 +1,5 @@
-import { Box, Button, Spinner, Stack, Text } from "@chakra-ui/react";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { Box, Button, Spinner, Stack } from "@chakra-ui/react";
+import { useInfiniteQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 import { IPost } from "../../Types/post";
@@ -23,14 +23,10 @@ const fetchPage = async (
 const Postlist = () => {
   const { tribeId } = useParams<{ tribeId: string }>();
   const limit = 10;
-  const {
-    status,
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery<IPost[], IError>(
+  const { status, data, fetchNextPage, hasNextPage } = useInfiniteQuery<
+    IPost[],
+    IError
+  >(
     ["PostList", tribeId],
     ({ pageParam = 0, queryKey }) =>
       fetchPage(pageParam, queryKey[1] as string, limit),

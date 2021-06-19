@@ -1,7 +1,7 @@
-import { Box, Heading, Button, Text } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 
-const Description = () => {
+const Description: React.FC = () => {
   return (
     <Box maxW="32rem" bg="teal" color="white" alignContent="center">
       <Heading mb={4}>Tribe!</Heading>
