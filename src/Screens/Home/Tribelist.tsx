@@ -9,7 +9,7 @@ import {
   Stack,
   Box,
 } from "@chakra-ui/react";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router";
 import TribeCard from "../../components/TribeCard";
@@ -37,13 +37,10 @@ const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
     history.push(`/tribe/${tribeId}`);
   };
 
-  const debouncedSearch = useCallback(
-    debounce((nextSearch) => setsearch(nextSearch), 1000),
-    []
+  const debouncedSearch = debounce(
+    (nextSearch: string) => setsearch(nextSearch),
+    1000
   );
-  const handleChange = (nextSearch: string) => {
-    debouncedSearch(nextSearch);
-  };
 
   return (
     <Stack spacing={1}>
@@ -54,7 +51,7 @@ const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
               type={"text"}
               placeholder="Search tribe.."
               variant="filled"
-              onChange={(e) => handleChange(e.target.value)}
+              onChange={(e) => debouncedSearch(e.target.value)}
             />
             <InputRightElement>
               <SearchIcon />
@@ -62,7 +59,7 @@ const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
           </InputGroup>
         </form>
       </Box>
-      {data?.length ?? 0 > 0 ? (
+      {data?.length && data.length > 0 ? (
         data?.map((tribe) => (
           <TribeCard
             tribe={tribe}
@@ -70,7 +67,7 @@ const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
             onTribeChange={HandleTribeChange}
           />
         ))
-      ) : tribes?.length ?? 0 > 0 ? (
+      ) : tribes?.length && tribes.length > 0 ? (
         tribes?.map((tribe) => (
           <TribeCard
             tribe={tribe.tribe}

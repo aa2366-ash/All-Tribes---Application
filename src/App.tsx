@@ -40,7 +40,7 @@ const App = () => {
         dispatch(setCurrentUser({ currentUser: result.user }))
       );
     }
-  }, []);
+  }, [refreshtoken, dispatch, userId]);
   if (refreshtoken && !userId) return <Spinner />;
   return <AppRoutes />;
 };
