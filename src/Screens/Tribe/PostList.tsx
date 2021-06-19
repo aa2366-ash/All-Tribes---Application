@@ -1,10 +1,13 @@
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 import { IPost } from "../../Types/post";
 import get from "../../utils/get";
 import flattendeep from "lodash.flattendeep";
+import Createpost from "./Createpost";
+import FollowTribe from "../../components/FollowTribe";
+import NoPost from "../../components/NoPost";
 interface IError {
   message: string;
 }
@@ -36,33 +39,38 @@ const Postlist = () => {
         if (lastPage.length === limit) return allPages.length;
         return false;
       },
+      retry: false,
     }
   );
   const postList = flattendeep(data?.pages);
   return (
     <Box>
+      {status === "success" && <Createpost />}
       {status === "error" ? (
-        <Text>{error?.message}</Text>
+        <FollowTribe />
       ) : status === "loading" ? (
         <Spinner />
       ) : status === "success" ? (
         postList.length > 0 ? (
           postList.map((post) => <PostCard {...post} />)
         ) : (
-          <Text>No post to display.</Text>
+          <NoPost />
         )
       ) : (
         ""
       )}
       {postList.length > 0 && (
-        <Button
-          color="teal"
-          variant="solid"
-          disabled={!hasNextPage}
-          onClick={() => fetchNextPage()}
-        >
-          Load more post..
-        </Button>
+        <Stack>
+          <Button
+            color="teal"
+            variant="solid"
+            disabled={!hasNextPage}
+            onClick={() => fetchNextPage()}
+            mx="auto"
+          >
+            Load more post..
+          </Button>
+        </Stack>
       )}
     </Box>
   );

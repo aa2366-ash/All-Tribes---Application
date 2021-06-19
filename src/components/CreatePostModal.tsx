@@ -15,10 +15,10 @@ import React from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import Inputfield from "../../components/Inputfield";
+import Inputfield from "./Inputfield";
 import { InfiniteData, useMutation, useQueryClient } from "react-query";
-import post from "../../utils/post";
-import { IPost } from "../../Types/post";
+import post from "../utils/post";
+import { IPost } from "../Types/post";
 import { useParams } from "react-router-dom";
 import flattendeep from "lodash.flattendeep";
 import chunk from "lodash.chunk";
@@ -40,6 +40,7 @@ interface IFormValue {
   text?: string;
   gifUrl?: string;
 }
+
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose(): void;
@@ -62,19 +63,17 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
     {
       onMutate: async (newPost: IFormValue) => {
         await queryClient.cancelQueries(["PostList", tribeId]);
-        console.log(queryClient.getQueryCache());
         const previousPostList = queryClient.getQueryData<
           InfiniteData<IPost[]> | undefined
         >(["PostList", tribeId]);
-        console.log(previousPostList);
         if (previousPostList) {
           const flattenlist = flattendeep(previousPostList.pages);
           flattenlist.unshift({
             id: "",
             ...newPost,
             createdAt: "",
+            updatedAt: "",
             like: 0,
-            isLiked: false,
             creatorId: "",
             tribeId: "",
             tribe: {
@@ -151,6 +150,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
               registerProps={register("gifUrl")}
               error={formState.errors["gifUrl"]?.message}
               size="md"
+              placeholder="Post Image or Gif Url "
             />
             {/* <Grid width={500} columns={6} fetchGifs={fetchGifs} /> */}
           </ModalBody>

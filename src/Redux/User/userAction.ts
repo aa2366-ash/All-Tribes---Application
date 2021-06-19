@@ -31,17 +31,3 @@ export const logoutCurrentUser = (userId: string) => {
       });
   };
 };
-
-// export const reAuthenticate = () => {
-//   return (dispatch: Dispatch) => {
-//     const refreshtoken = localStorage.getItem("refreshtoken");
-//     if (!refreshtoken) dispatch(clearAction);
-//     post<Pick<IUserStore, "accesstoken" | "currentUser">>("api/session/token", {
-//       refreshtoken,
-//     })
-//       .then((res) => {
-//         dispatch(setCurrentUser(res));
-//       })
-//       .catch(() => dispatch(clearAction));
-//   };
-// };

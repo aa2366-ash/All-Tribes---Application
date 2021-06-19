@@ -70,7 +70,6 @@ const Tribe = () => {
             </Stack>
             <Stack direction={"row"} spacing={4}>
               <Text color={"gray.500"}>{tribe?.description}</Text>
-              <Createpost />
             </Stack>
           </Stack>
         </Stack>

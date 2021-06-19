@@ -19,6 +19,7 @@ import {
 import { IPost } from "../Types/post";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import React from "react";
+import LikePost from "./LikePost";
 
 const PostCard: React.FC<IPost> = (post) => {
   return (
@@ -55,30 +56,11 @@ const PostCard: React.FC<IPost> = (post) => {
         ) : (
           ""
         )}
-        <Stack direction="row" py={2}>
-          {post.isLiked ? (
-            <FcLike size={22} />
-          ) : (
-            <FcLikePlaceholder size={22} />
-          )}
-          <Text>{post.like}</Text>
-          <Popover placement="right" closeOnBlur={true}>
-            <PopoverTrigger>
-              <Text _hover={{ cursor: "pointer" }} textDecoration="underline">
-                {post.like > 1 ? " Likes" : " Like"}
-              </Text>
-            </PopoverTrigger>
-            <PopoverContent color="white" bg="grey.700">
-              <PopoverHeader
-                pt={4}
-                fontWeight="bold"
-                border="0"
-              ></PopoverHeader>
-              <PopoverCloseButton />
-              <PopoverBody></PopoverBody>
-            </PopoverContent>
-          </Popover>
-        </Stack>
+        <LikePost
+          count={post.like}
+          isLiked={Boolean(post.isLiked)}
+          postId={post.id}
+        />
       </Stack>
     </Box>
   );

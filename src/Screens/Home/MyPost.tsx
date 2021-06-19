@@ -2,10 +2,23 @@ import { useInfiniteQuery } from "react-query";
 import { IPost } from "../../Types/post";
 import get from "../../utils/get";
 import flattendeep from "lodash.flattendeep";
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button,
+  Skeleton,
+  Spinner,
+  Stack,
+  Text,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 import PostEditCard from "../../components/PostEditCard";
+import NoPost from "../../components/NoPost";
 
-interface IError {
+export interface IError {
   message: string;
 }
 const fetchPage = async (
@@ -18,21 +31,18 @@ const fetchPage = async (
   );
 };
 const MyPost: React.FC = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const limit = 5;
-  const {
-    status,
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery<IPost[], IError>(
+  const { status, data, error, fetchNextPage, hasNextPage } = useInfiniteQuery<
+    IPost[],
+    IError
+  >(
     ["PostList", "MyPost"],
     ({ pageParam = 0, queryKey }) =>
       fetchPage(pageParam, queryKey[1] as string, limit),
     {
       getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.length === limit) return allPages.length;
+        if (lastPage && lastPage.length === limit) return allPages.length;
         return false;
       },
     }
@@ -40,21 +50,26 @@ const MyPost: React.FC = () => {
   const postList = flattendeep(data?.pages);
   return (
     <Box>
-      {status === "error" ? (
-        <Text>{error?.message}</Text>
-      ) : status === "loading" ? (
-        <Spinner />
-      ) : status === "success" ? (
-        postList.length > 0 ? (
-          postList.map((post) => <PostEditCard {...post} />)
+      <VStack>
+        {status === "error" ? (
+          <Text>{error?.message}</Text>
+        ) : status === "loading" ? (
+          <Stack spacing={5}>
+            <Skeleton height="120px" width="600px" />
+            <Skeleton height="120px" width="600px" />
+            <Skeleton height="120px" width="600px" />
+            <Skeleton height="120px" width="600px" />
+          </Stack>
+        ) : status === "success" ? (
+          postList.length > 0 ? (
+            postList.map((post) => <PostEditCard {...post} />)
+          ) : (
+            <NoPost />
+          )
         ) : (
-          <Text>No post to display.</Text>
-        )
-      ) : (
-        ""
-      )}
-      {postList.length > 0 && (
-        <Box mx="auto">
+          ""
+        )}
+        {postList.length > 0 && (
           <Button
             color="teal"
             variant="outline"
@@ -63,8 +78,8 @@ const MyPost: React.FC = () => {
           >
             Load more posts..
           </Button>
-        </Box>
-      )}
+        )}
+      </VStack>
     </Box>
   );
 };

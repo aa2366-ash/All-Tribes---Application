@@ -70,6 +70,9 @@ function AppRoutes() {
             <Tribe />
           </TopNavBar>
         </Route>
+        <Route path="/">
+          <Redirect to={{ pathname: "/login" }} />
+        </Route>
       </Switch>
     </Router>
   );

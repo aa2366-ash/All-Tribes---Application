@@ -2,42 +2,86 @@ import {
   Box,
   Stack,
   Square,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverCloseButton,
-  PopoverBody,
+  Avatar,
+  WrapItem,
+  Wrap,
   Text,
   Image,
   IconButton,
   useColorModeValue,
+  useDisclosure,
+  VStack,
+  HStack,
+  Badge,
 } from "@chakra-ui/react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { IPost } from "../Types/post";
-
-import post from "../utils/post";
-
+import deletereq from "../utils/post";
+import React from "react";
+import DeleteDialogBox from "./DeleteDialogBox";
+import EditDialogBox from "./EditDialogBox";
+import LikePost from "./LikePost";
+import { DayConvert } from "../utils/dayjs";
+interface RefObject {
+  onClose(): void;
+}
 const PostEditCard: React.FC<IPost> = (post) => {
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const cancelRef = React.useRef();
+  const date = DayConvert(post.createdAt);
   return (
     <Box
       width="600px"
       boxShadow={"lg"}
       rounded={"xl"}
-      justifyContent="start"
       borderColor="black"
-      m="auto"
-      my={6}
+      my="20px"
       p={4}
       bg={useColorModeValue("white", "gray.800")}
     >
       <Stack direction={"column"} px={3}>
-        <Stack direction={"row"} spacing={3}>
-          <Text size="md">Posted At {post.tribe.name}</Text>
-          <IconButton aria-label="Edit" icon={<EditIcon />} />
-          <IconButton aria-label="Delete" icon={<DeleteIcon />} />
-        </Stack>
+        <HStack spacing={3}>
+          <Wrap flex="1">
+            <WrapItem>
+              <Avatar name="Dan Abrahmov" src={post.tribe.avatarUrl} />
+
+              <VStack spacing={0} align={"start"} px={2}>
+                <Text size="md">{post.tribe.name}</Text>
+                <HStack>
+                  <Text fontSize="xs" color="grey">
+                    {date}
+                    {post.createdAt !== post.updatedAt && (
+                      <Badge colorScheme="purple" ml="1" fontSize="0.7em">
+                        Edited
+                      </Badge>
+                    )}
+                  </Text>
+                </HStack>
+              </VStack>
+            </WrapItem>
+          </Wrap>
+
+          <IconButton
+            aria-label="Edit"
+            icon={<EditIcon />}
+            onClick={onOpenEdit}
+          />
+          <IconButton
+            aria-label="Delete"
+            icon={<DeleteIcon />}
+            onClick={onOpenDelete}
+          />
+        </HStack>
         {post.text ? <Text size="md">{post.text}</Text> : ""}
         {post.gifUrl ? (
           <Square>
@@ -46,30 +90,24 @@ const PostEditCard: React.FC<IPost> = (post) => {
         ) : (
           ""
         )}
-        <Stack direction="row" py={2}>
-          {post.isLiked ? (
-            <FcLike size={22} />
-          ) : (
-            <FcLikePlaceholder size={22} />
-          )}
-          <Text>{post.like}</Text>
-          <Popover placement="right" closeOnBlur={true}>
-            <PopoverTrigger>
-              <Text _hover={{ cursor: "pointer" }} textDecoration="underline">
-                {post.like > 1 ? " Likes" : " Like"}
-              </Text>
-            </PopoverTrigger>
-            <PopoverContent color="white" bg="grey.700">
-              <PopoverHeader
-                pt={4}
-                fontWeight="bold"
-                border="0"
-              ></PopoverHeader>
-              <PopoverCloseButton />
-              <PopoverBody></PopoverBody>
-            </PopoverContent>
-          </Popover>
-        </Stack>
+        <LikePost
+          count={post.like}
+          isLiked={Boolean(post.isLiked)}
+          postId={post.id}
+        />
+        <DeleteDialogBox
+          postId={post.id}
+          isOpen={isOpenDelete}
+          onClose={onCloseDelete}
+          cancelRef={cancelRef}
+        />
+        <EditDialogBox
+          postId={post.id}
+          isOpen={isOpenEdit}
+          onClose={onCloseEdit}
+          text={post?.text}
+          gifUrl={post?.gifUrl}
+        />
       </Stack>
     </Box>
   );

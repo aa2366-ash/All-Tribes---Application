@@ -1,5 +1,4 @@
-import { Box, Grid, Spinner, Stack, Text } from "@chakra-ui/react";
-import CreateTribe from "../../components/CreateTribe";
+import { Box, Grid, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react";
 import Tribelist from "./Tribelist";
 import get from "../../utils/get";
 import { useQuery } from "react-query";
@@ -18,7 +17,14 @@ const Home = () => {
         {status === "error" ? (
           <Text>Failed to fetch the contents</Text>
         ) : status === "loading" ? (
-          <Spinner />
+          <>
+            <Stack spacing={5}>
+              <Skeleton height="90px" width="300px" />
+              <Skeleton height="90px" width="300px" />
+              <Skeleton height="90px" width="300px" />
+              <Skeleton height="90px" width="300px" />
+            </Stack>
+          </>
         ) : status === "success" ? (
           <Tribelist tribes={data} />
         ) : undefined}
@@ -29,7 +35,6 @@ const Home = () => {
           <MyPost />
         </Stack>
       </Box>
-      <Box>CHAT BOX</Box>
     </Grid>
   );
 };

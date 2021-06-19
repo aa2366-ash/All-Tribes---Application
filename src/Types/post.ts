@@ -7,8 +7,13 @@ export interface IPost {
   gifUrl?: string;
   creatorId: string;
   createdAt: string;
+  updatedAt: string;
   like: number;
-  isLiked: boolean;
+  isLiked?: {
+    tribeId: string;
+    creatorId: string;
+    postId: string;
+  };
   creator: IUser;
   tribeId: string;
   tribe: ITribe;

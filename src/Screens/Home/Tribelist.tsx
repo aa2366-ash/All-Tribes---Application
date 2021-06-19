@@ -33,7 +33,7 @@ const Tribelist: React.FC<TribelistProps> = ({ tribes }) => {
     ["searchTribe", search],
     ({ queryKey }) => fetchSearchResult(queryKey[1] as string)
   );
-  console.log(data);
+
   const HandleTribeChange = (tribeId: string) => {
     history.push(`/tribe/${tribeId}`);
   };
