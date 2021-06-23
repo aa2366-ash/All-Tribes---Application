@@ -1,9 +1,20 @@
-import { Box, Square, Image, Text, Avatar, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Square,
+  Image,
+  Text,
+  Avatar,
+  Stack,
+  VStack,
+  HStack,
+} from "@chakra-ui/react";
 import { IPost } from "../Types/post";
 import React from "react";
 import LikePost from "./LikePost";
+import { DayConvert } from "../utils/dayjs";
 
 const PostCard: React.FC<IPost> = (post) => {
+  const date = DayConvert(post.createdAt);
   return (
     <Box
       width="500px"
@@ -15,7 +26,7 @@ const PostCard: React.FC<IPost> = (post) => {
       borderColor="black"
     >
       <Stack direction={"column"} px={3}>
-        <Stack direction={"row"} spacing={3}>
+        <HStack>
           <Avatar
             my={2}
             size={"md"}
@@ -25,15 +36,20 @@ const PostCard: React.FC<IPost> = (post) => {
               border: "2px solid white",
             }}
           />
-          <Text py={5}>
-            {post.creator.name.charAt(0).toUpperCase() +
-              post.creator.name.slice(1)}
-          </Text>
-        </Stack>
+          <VStack spacing={0} align={"start"}>
+            <Text>
+              {post.creator.name.charAt(0).toUpperCase() +
+                post.creator.name.slice(1)}
+            </Text>
+            <Text fontSize="xs" color="grey">
+              Created At {date}
+            </Text>
+          </VStack>
+        </HStack>
         {post.text ? <Text size="md">{post.text}</Text> : ""}
         {post.gifUrl ? (
           <Square>
-            <Image src={post.gifUrl}></Image>
+            <Image src={post.gifUrl} h="300px"></Image>
           </Square>
         ) : (
           ""

@@ -21,6 +21,10 @@ import {
   InputGroup,
   InputRightElement,
   useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -86,10 +90,27 @@ const Login = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <Grid templateColumns="repeat(2, 1fr)" h="100%">
-      <IntroductionComp />
+    <Grid templateColumns="100% 1fr" h="100%">
       <VStack justifyContent="center" p={20}>
-        <Heading> Welcome to the tribe!</Heading>
+        <Heading> Welcome to Tribe!</Heading>
+        <Alert
+          status="warning"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          height="130px"
+          width="300px"
+        >
+          <AlertIcon boxSize="30px" />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            Test Account Credentials
+          </AlertTitle>
+          <AlertDescription maxWidth="sm">
+            Email: test@test.com password: test1
+          </AlertDescription>
+        </Alert>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3}>
             <FormControl isInvalid={Boolean(formState.errors["email"])}>

@@ -33,7 +33,7 @@ const Tribe = () => {
   const tribe = data?.data;
 
   return (
-    <Grid templateColumns="70% 1fr" h="100%">
+    <Grid templateColumns="100% 1fr" h="100%">
       <Box
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"2xl"}
@@ -41,7 +41,7 @@ const Tribe = () => {
         overflow={"hidden"}
       >
         <Image
-          h={"120px"}
+          h={"200px"}
           w={"full"}
           src={tribe?.coverUrl}
           objectFit={"cover"}
@@ -71,16 +71,6 @@ const Tribe = () => {
           </Stack>
         </Stack>
         <Postlist />
-      </Box>
-      <Box
-        bg={useColorModeValue("teal.400", "teal.200")}
-        boxShadow={"2xl"}
-        rounded={"md"}
-        overflow={"hidden"}
-      >
-        <Heading color="white" mx={3}>
-          CHAT BOX!
-        </Heading>
       </Box>
     </Grid>
   );

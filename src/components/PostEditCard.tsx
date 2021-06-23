@@ -81,7 +81,7 @@ const PostEditCard: React.FC<IPost> = (post) => {
         {post.text ? <Text size="md">{post.text}</Text> : ""}
         {post.gifUrl ? (
           <Square>
-            <Image src={post.gifUrl}></Image>
+            <Image src={post.gifUrl} h="300px"></Image>
           </Square>
         ) : (
           ""

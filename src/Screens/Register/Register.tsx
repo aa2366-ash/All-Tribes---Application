@@ -72,8 +72,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <Grid templateColumns="1fr 1fr" h="100%">
-      <IntroductionComp />
+    <Grid templateColumns="100% 1fr" h="100%">
       <VStack justifyContent="center">
         <Heading>Join the tribe!</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
