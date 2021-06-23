@@ -125,7 +125,12 @@ const Login = () => {
                 {formState.errors["password"]?.message}
               </FormErrorMessage>
             </FormControl>
-            <Button size="md" colorScheme="teal" type="submit">
+            <Button
+              size="md"
+              colorScheme="teal"
+              type="submit"
+              isLoading={formState.isSubmitting}
+            >
               Login
             </Button>
           </Stack>
