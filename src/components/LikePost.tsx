@@ -37,10 +37,8 @@ const LikePost: React.FC<ILikeProps> = ({ postId, isLiked, count }) => {
         {like ? <FcLike size={22} /> : <FcLikePlaceholder size={22} />}
       </Box>
       <Text>{likeCount}</Text>
-      {count > 0 ? (
-        <Text _hover={{ cursor: "pointer" }} textDecoration="underline">
-          Likes
-        </Text>
+      {count > 1 ? (
+        <Text _hover={{ cursor: "pointer" }}>Likes</Text>
       ) : (
         <Text> Like </Text>
       )}
